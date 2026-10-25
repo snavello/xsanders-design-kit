@@ -1,0 +1,6 @@
+{
+  "name": "xsd",
+  "version": "1.0.0",
+  "description": "XSANDERS Design Kit: auditoría de diseño de una app entera con revisores en paralelo, informe interactivo donde la persona decide cada mejora, aplicación con agentes y segunda vuelta.",
+  "author": { "name": "snavello" }
+}

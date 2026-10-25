@@ -1,0 +1,5 @@
+__pycache__/
+*.pyc
+.pytest_cache/
+xsd-trabajo/
+plugins/avance-agentes/.claude-plugin/types/
