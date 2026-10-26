@@ -1,16 +1,18 @@
 {
   "name": "xsanders-design-kit",
-  "owner": { "name": "snavello" },
+  "owner": {
+    "name": "snavello"
+  },
   "metadata": {
     "description": "XSD, XSANDERS Design Kit: auditoría de diseño con revisores en paralelo e informe interactivo de decisiones.",
-    "version": "1.0.0"
+    "version": "1.1.0"
   },
   "plugins": [
     {
       "name": "xsd",
       "source": "./plugins/xsd",
-      "description": "La skill XSD: ficha del proyecto, capturas, revisores en paralelo, informe interactivo, plan, aplicación con agentes y segunda vuelta.",
-      "version": "1.0.0"
+      "description": "La skill XSD: ficha del proyecto, capturas, revisores en paralelo, informe interactivo, plan, aplicación con agentes y segunda vuelta. Incluye un catálogo de 60 estilos de interfaz.",
+      "version": "1.1.0"
     },
     {
       "name": "avance-agentes",

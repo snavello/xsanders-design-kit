@@ -12,6 +12,14 @@ Claude Code. XSD se encarga de:
 
 Se pide con **«revisá el diseño de este proyecto con XSD»** o con `/xsd`.
 
+Además trae un **catálogo de 60 estilos de interfaz**, todos aplicados a la portada de **ACME**, una
+organización inventada:
+- claros de producto, muy claros, de color, grises con uno o dos colores, editoriales, fotográficos, con objeto, flúor y oscuros;
+- veinte con movimiento.
+
+Se pide con **«mostrame el catálogo XSD»** o con `/xsd catalogo`. El detalle está en
+`plugins/xsd/skills/xsd/catalogo/LEEME.md`.
+
 ## Instalar
 
 En Claude Code:
@@ -75,6 +83,7 @@ plugins/xsd/skills/xsd/
   herramientas/xsd.py               capturar · hoja · brief · informe · decisiones · previos · encargos · avance
   herramientas/capturar.cjs         el capturador (Playwright)
   informe/index.html                la página del informe, sin librerías
+  catalogo/                         los 60 estilos sobre ACME, la página del catálogo y sus fotos (CC0)
 plugins/avance-agentes/             mod de Claude Code: la ventana de avance
 tests/                              python -m pytest -q tests
 ```

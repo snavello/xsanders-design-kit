@@ -152,3 +152,53 @@ def test_el_avance_suma_y_actualiza_bloques(tmp_path, monkeypatch):
     assert [(b["id"], b["estado"], b["nombre"]) for b in d["bloques"]] == [("b1", "hecho", "Capturas"),
                                                                            ("b2", "pendiente", "Revisores")]
     assert d["bloques"][0]["detalle"] == "empezando"
+
+
+# ------------------------------------------------------------------- catálogo
+CATALOGO = KIT / "catalogo"
+sys.path.insert(0, str(CATALOGO))
+import armar  # noqa: E402
+
+
+def _ids_del_catalogo():
+    return [i for _, _, _, ids in armar.FAMILIAS for i in ids]
+
+
+def test_cada_estilo_del_catalogo_tiene_su_hoja_y_su_ficha():
+    ids = _ids_del_catalogo()
+    assert len(ids) == len(set(ids)) == 60
+    fichas = json.loads((CATALOGO / "estilos.json").read_text(encoding="utf-8"))
+    for i in ids:
+        css = (CATALOGO / "estilos" / f"{i}.css").read_text(encoding="utf-8")
+        assert css.startswith("/* fuentes:"), i
+        assert f".e-{i}" in css, i
+        assert fichas[i]["nombre"] and fichas[i]["caracter"], i
+        foto = re.search(r"/\*\s*foto:\s*([a-z]+)\s*(?:;\s*([a-z]+))?\s*\*/", css)
+        for nombre in (foto.groups() if foto else ()):
+            if nombre:
+                assert (CATALOGO / "fotos" / f"{nombre}.jpg").exists(), (i, nombre)
+    sobrantes = {p.name.split(".")[0] for p in (CATALOGO / "estilos").iterdir()} - set(ids)
+    assert not sobrantes, sobrantes
+
+
+def test_los_estilos_con_movimiento_respetan_reducir_movimiento():
+    for fam, _, _, ids in armar.FAMILIAS:
+        if fam.startswith("mov"):
+            for i in ids:
+                css = (CATALOGO / "estilos" / f"{i}.css").read_text(encoding="utf-8")
+                assert "@keyframes" in css and "prefers-reduced-motion" in css, i
+
+
+def test_las_fuentes_salen_en_un_solo_enlace_valido():
+    fams = armar.unir_fuentes(armar.leer_fuentes("Barlow:wght@400;700; Barlow:wght@500; Manrope:wght@400..800; Manrope:wght@600"))
+    assert fams == ["Barlow:wght@400;500;700", "Manrope:wght@400..800"]
+
+
+def test_el_catalogo_se_arma(tmp_path):
+    salida = tmp_path / "catalogo" / "index.html"
+    sys.argv = ["armar.py", str(salida)]
+    armar.main()
+    pagina = salida.read_text(encoding="utf-8")
+    assert pagina.count('<article class="est"') == 60
+    assert "{{" not in pagina
+    assert (salida.parent / "fotos" / "tecnico.jpg").exists()
